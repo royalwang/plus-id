@@ -19,4 +19,7 @@ Route::group(['prefix' => 'plus-id'], function (RouteRegisterContract $route) {
 
     // Home Router.
     $route->get('/', Web\HomeController::class.'@index');
+
+    // resolve
+    $route->get('/clients/{client}', Web\AuthController::class.'@resolve');
 });
