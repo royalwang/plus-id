@@ -12,8 +12,17 @@ class AuthController
     {
         $sign = $request->query('sign');
         $redirect = $request->query('redirect');
-        $action = ['app' => $app, 'action' => 'auth/resolve'];
+        $time = (int) $request->query('time');
+        $action = ['app' => $client->id, 'action' => 'auth/resolve', 'time' => $time];
         $url = new URL($redirect);
+
+        // 过期 五分钟 5 * 60
+        if ((time() - $time) > 300) {
+            $url->addQuery('status', 'fail');
+            $url->addQuery('code', '10000');
+
+            return redirect((string) $url, 302);
+        }
 
         // 签名失败。
         if ($client->sign($action) !== $sign) {
@@ -32,10 +41,16 @@ class AuthController
             return redirect((string) $url, 302);
         }
 
-        $action = ['app' => $app, 'action' => 'auth/resolve', 'user' => $user->id];
+        $action = [
+            'app' => $client->id,
+            'action' => 'auth/resolve',
+            'user' => $user->id,
+            'time' => $time = time(),
+        ];
         $url->addQuery('status', 'success');
         $url->addQuery('sign', $client->sign($action));
         $url->addQuery('user', $user->id);
+        $url->addQuery('time', $time);
 
         return redirect((string) $url, 302);
     }
