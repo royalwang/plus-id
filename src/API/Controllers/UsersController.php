@@ -44,7 +44,7 @@ class UsersController
         return response()->json(['status' => 'success', 'map' => $map], 201);
     }
 
-    public function show(Request $request)
+    public function show(Request $request, ClientModel $client)
     {
         $sign = $request->input('sign');
         $time = $request->input('time');
@@ -75,5 +75,10 @@ class UsersController
         }
 
         return $user;
+    }
+
+    public function create(Request $request, ClientModel $client)
+    {
+        // todo.
     }
 }
