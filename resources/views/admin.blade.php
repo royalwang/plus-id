@@ -4,7 +4,7 @@
 
 @section('head')
     
-    <meta name="admin-api-basename" content="{{ url('/question-admin') }}">
+    <meta name="admin-api-basename" content="{{ url('/slimkit/plus-id') }}">
     @parent
 
 @endsection
