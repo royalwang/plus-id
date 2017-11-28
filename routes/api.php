@@ -20,4 +20,7 @@ Route::group(['prefix' => 'api/plus-id'], function (RouteRegisterContract $api) 
     // Test route.
     // @ANY /api/plus-id
     $api->any('/', API\HomeController::class.'@index');
+
+    // check user.
+    $api->post('/clients/{client}/user-check', API\UsersController::class.'@check');
 });
