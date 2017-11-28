@@ -13,6 +13,14 @@ class Client extends Model
      */
     protected $table = 'plus_id_clients';
 
+    /**
+     * make sign.
+     *
+     * @param array $action
+     * @param string $key
+     * @return string
+     * @author Seven Du <shiweidu@outlook.com>
+     */
     public function sign(array $action, string $key = ''): string
     {
         ksort($action);
