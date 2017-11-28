@@ -23,4 +23,7 @@ Route::group(['prefix' => 'api/plus-id'], function (RouteRegisterContract $api) 
 
     // check user.
     $api->post('/clients/{client}/user-check', API\UsersController::class.'@check');
+
+    // get user
+    $api->post('/clients/{client}/user-show', API\UsersController::class.'@show');
 });

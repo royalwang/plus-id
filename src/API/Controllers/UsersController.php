@@ -43,4 +43,37 @@ class UsersController
 
         return response()->json(['status' => 'success', 'map' => $map], 201);
     }
+
+    public function show(Request $request)
+    {
+        $sign = $request->input('sign');
+        $time = $request->input('time');
+        $user = $request->input('user');
+
+        // 过期 五分钟 5 * 60
+        if ((time() - $time) > 300) {
+            $message = ['status' => 'fail', 'code' => 10000];
+
+            return response()->json($message, 422);
+        }
+
+        // 签名失败。
+        $action = [
+            'app' => $client->id,
+            'action' => 'user/show',
+            'time' => $time,
+        ];
+        if ($client->sign($action) !== $sign) {
+            $message = ['status' => 'fail', 'code' => 10001];
+
+            return response()->json($message, 403);
+        }
+
+        $user = UserModel::find($user);
+        if (! $user) {
+            return response()->json(['status' => 'fial', 'code' => 10003], 404);
+        }
+
+        return $user;
+    }
 }
