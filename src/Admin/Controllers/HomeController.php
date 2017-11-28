@@ -6,6 +6,7 @@ class HomeController
 {
     public function index()
     {
-        return trans('plus-id::messages.success');
+        // return trans('plus-id::messages.success');
+        return view('plus-id::admin');
     }
 }
